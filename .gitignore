@@ -40,6 +40,10 @@ node_modules/
 npm-debug.log
 yarn-error.log
 .env
+AuthContext.tsx
+styles.js
+BikeCard.js
+# i have to remove them later ((REMINDER))
 
 # fastlane
 #
