@@ -1,11 +1,15 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const User = require('../models/User');
 const router = express.Router();
 
 // JWT secret key
 const JWT_SECRET = 'af4b9273ef9a8fb1e7f5b8c71ddbc2d4f7a812eb3d9eaafc8d8f495a675fb2d5'; // Replace with a secure key in production
+
+// Use cookie-parser middleware
+router.use(cookieParser());
 
 // User registration
 router.post('/register', async (req, res) => {
@@ -58,6 +62,9 @@ router.post('/login', async (req, res) => {
     // Generate JWT
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
+    // Set the token as a cookie
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+
     res.json({ token, user });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -66,7 +73,7 @@ router.post('/login', async (req, res) => {
 
 // Token verification middleware
 const verifyToken = (req, res, next) => {
-  const token = req.header('x-auth-token');
+  const token = req.cookies.token;
   if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
 
   try {

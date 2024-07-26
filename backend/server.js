@@ -5,12 +5,14 @@ const bicycleRoutes = require('./routes/bicycles');
 const locationRoutes = require('./routes/locations');
 const rideRoutes = require('./routes/rides');
 const { verifyToken } = require('./middlewares/auth'); // Middleware for JWT verification
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 // Connect to the database
 connectDB();
 
+app.use(cookieParser());
 // Middleware for parsing JSON
 app.use(express.json());
 
