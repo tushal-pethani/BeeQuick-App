@@ -3,6 +3,32 @@ const Bicycle = require('../models/Bicycle');
 const Location = require('../models/Location');
 const router = express.Router();
 
+
+
+router.post('/available', async (req, res) => {
+  const { loc_avail } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(loc_avail)) {
+    return res.status(400).json({ message: 'Location is required' });
+  }
+
+  try {
+    // Find bicycles that are available at the specified location
+    const availableBicycles = await Bicycle.find({
+      loc_avail,
+      availability: true // Assuming you have an 'available' field in your Bicycle model
+    }).populate('loc_avail');
+
+    res.json(availableBicycles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
 // Create a new bicycle
 router.post('/create', async (req, res) => {
   const { bikeId, availability, loc_avail } = req.body;
