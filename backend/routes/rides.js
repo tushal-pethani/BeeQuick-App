@@ -54,7 +54,7 @@ router.post('/create', async (req, res) => {
       bikeId,
       loc_pick,
       time_pick,
-      // amount: 0, // Initial amount will be calculated later
+      amount: 0, // Initial amount will be calculated later
     });
     await newRide.save();
 
