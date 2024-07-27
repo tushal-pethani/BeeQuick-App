@@ -54,7 +54,7 @@ router.post('/create', async (req, res) => {
       bikeId,
       loc_pick,
       time_pick,
-      // amount: 0, // Initial amount will be calculated later
+      amount: 0, // Initial amount will be calculated later
     });
     await newRide.save();
 
@@ -70,12 +70,12 @@ router.post('/create', async (req, res) => {
 
 
 // End a ride
-router.put('/end/:id', async (req, res) => {
-  const { loc_drop } = req.body;
+router.put('/end', async (req, res) => {
+  const { rideId, loc_drop } = req.body;
 
   try {
     // Find the ride
-    const ride = await Ride.findById(req.params.id);
+    const ride = await Ride.findById(rideId);
     if (!ride) {
       return res.status(404).json({ message: 'Ride not found' });
     }
@@ -96,7 +96,7 @@ router.put('/end/:id', async (req, res) => {
     const bicycle = await Bicycle.findById(ride.bikeId);
     if (bicycle) {
       bicycle.availability = true;
-      bicycle.location = loc_drop;
+      bicycle.loc_avail = loc_drop;
       await bicycle.save();
     }
 

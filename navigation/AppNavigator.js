@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
 import Rental from '../screens/Rental';
+import Status from '../screens/Status';
+import Summary from '../screens/Summary';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +25,16 @@ function AppNavigator() {
       <Stack.Screen 
         name="Rental" 
         component={Rental} 
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen 
+        name="Status" 
+        component={Status} 
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen 
+        name="Summary" 
+        component={Summary} 
         options={{ headerShown: false }} 
       />
     </Stack.Navigator>

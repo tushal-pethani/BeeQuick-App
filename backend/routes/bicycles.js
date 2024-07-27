@@ -6,17 +6,24 @@ const router = express.Router();
 
 
 router.post('/available', async (req, res) => {
-  const { loc_avail } = req.body;
+  const { loc_id } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(loc_avail)) {
-    return res.status(400).json({ message: 'Location is required' });
+  if (!loc_id) {
+    return res.status(400).json({ message: 'Location ID is required' });
   }
 
   try {
-    // Find bicycles that are available at the specified location
+    // Find the location by loc_id to get the ObjectId
+    const location = await Location.findOne({ loc_id });
+
+    if (!location) {
+      return res.status(404).json({ message: 'Location not found' });
+    }
+
+    // Find bicycles that are available at the specified location ObjectId
     const availableBicycles = await Bicycle.find({
-      loc_avail,
-      availability: true // Assuming you have an 'available' field in your Bicycle model
+      loc_avail: location._id,
+      availability: true // Assuming you have an 'availability' field in your Bicycle model
     }).populate('loc_avail');
 
     res.json(availableBicycles);
@@ -27,6 +34,27 @@ router.post('/available', async (req, res) => {
 });
 
 
+router.post('/get-bikeid', async (req, res) => {
+  const { bikeId } = req.body;
+  // console.log(bikeId);
+
+  if (!bikeId) {
+    return res.status(400).json({ message: 'User ID is required' });
+  }
+
+  try {
+    const bike = await Bicycle.findById( bikeId );
+
+    if (!bike) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(bike);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+  
+});
 
 
 // Create a new bicycle
