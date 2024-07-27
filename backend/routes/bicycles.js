@@ -34,7 +34,27 @@ router.post('/available', async (req, res) => {
 });
 
 
+router.post('/get-bikeid', async (req, res) => {
+  const { bikeId } = req.body;
+  // console.log(bikeId);
 
+  if (!bikeId) {
+    return res.status(400).json({ message: 'User ID is required' });
+  }
+
+  try {
+    const bike = await Bicycle.findById( bikeId );
+
+    if (!bike) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(bike);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+  
+});
 
 
 // Create a new bicycle

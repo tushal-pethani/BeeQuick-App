@@ -47,6 +47,73 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.post('/locid', async (req, res) => {
+  const { loc_id } = req.body;
+
+  if (!loc_id) {
+    return res.status(400).json({ message: 'Location ID is required' });
+  }
+
+  try {
+    // Find the location by loc_id to get the ObjectId
+    const location = await Location.findOne({ loc_id });
+
+    if (!location) {
+      return res.status(404).json({ message: 'Location not found' });
+    }
+
+    res.json(location);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+router.post('/pickuplocid', async (req, res) => {
+  const { loc_pick } = req.body;
+  // console.log(loc_pick);
+
+  if (!loc_pick) {
+    return res.status(400).json({ message: 'Location ID is required' });
+  }
+
+  try {
+    // Find the location by loc_id to get the ObjectId
+    const location = await Location.findById( loc_pick );
+
+    if (!location) {
+      return res.status(404).json({ message: 'Location not found' });
+    }
+
+    res.json(location);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.post('/droplocid', async (req, res) => {
+  const { loc_drop } = req.body;
+  // console.log(loc_pick);
+
+  if (!loc_drop) {
+    return res.status(400).json({ message: 'Location ID is required' });
+  }
+
+  try {
+    // Find the location by loc_id to get the ObjectId
+    const location = await Location.findById( loc_drop );
+
+    if (!location) {
+      return res.status(404).json({ message: 'Location not found' });
+    }
+
+    res.json(location);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 // Update a location
 router.put('/:id', async (req, res) => {
   const { loc_id, loc_name } = req.body;

@@ -1,6 +1,7 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
+const useridRoutes = require('./routes/userid');
 const bicycleRoutes = require('./routes/bicycles');
 const locationRoutes = require('./routes/locations');
 const rideRoutes = require('./routes/rides');
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/userid', useridRoutes);
 app.use('/api/bicycles', verifyToken, bicycleRoutes); // Protecting routes with verifyToken
 app.use('/api/locations', verifyToken, locationRoutes);
 app.use('/api/rides', verifyToken, rideRoutes);
