@@ -4,6 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
   const formik = useFormik({
@@ -17,8 +18,10 @@ const Login = ({ navigation }) => {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await axios.post('http://192.168.1.4:3000/api/auth/login', values);
-        console.log(response.data);
+        const response = await axios.post('http://192.168.1.2:3000/api/auth/login', values);
+        const { token } = response.data;
+        await AsyncStorage.setItem('authToken', token); // Store the token
+        // console.log(response.data);
         Alert.alert('Success', 'Login successful!');
         navigation.navigate('Rental');
       } catch (error) {

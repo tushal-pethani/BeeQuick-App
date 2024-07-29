@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true, // Helps mitigate XSS attacks
       secure: process.env.NODE_ENV === 'production', // Use 'secure' cookies only in production
-      maxAge: 3600000 // Cookie expiration in milliseconds (1 hour)
+      maxAge: 10 * 12 * 30 * 24 * 3600000 // Cookie expiration in milliseconds (1 hour)
     });
 
     res.status(201).json({ token, user: newUser });
@@ -67,7 +67,7 @@ router.post('/login', async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true, // Helps mitigate XSS attacks
       secure: process.env.NODE_ENV === 'production', // Use 'secure' cookies only in production
-      maxAge: 3600000 // Cookie expiration in milliseconds (1 hour)
+      maxAge: 10 * 12 * 30 * 24 * 3600000 // Cookie expiration in milliseconds (1 hour)
     });
 
     res.json({ token, user });
