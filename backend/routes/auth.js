@@ -1,12 +1,15 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const User = require('../models/User');
 const router = express.Router();
 
 // JWT secret key
-const JWT_SECRET =
-  'af4b9273ef9a8fb1e7f5b8c71ddbc2d4f7a812eb3d9eaafc8d8f495a675fb2d5'; // Replace with a secure key in production
+const JWT_SECRET = 'af4b9273ef9a8fb1e7f5b8c71ddbc2d4f7a812eb3d9eaafc8d8f495a675fb2d5'; // Replace with a secure key in production
+
+// Use cookie-parser middleware
+router.use(cookieParser());
 
 // User registration
 router.post('/register', async (req, res) => {
