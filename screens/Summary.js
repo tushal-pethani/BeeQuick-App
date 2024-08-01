@@ -40,7 +40,7 @@ const SummaryPage = ({route, navigation}) => {
           },
         },
       );
-      const user = userRes.data;
+      user = userRes.data;
       const bikeRes = await axios.post(
         'http://192.168.29.20:3000/api/bicycles/get-bikeid',
         {bikeId: rideData.bikeId},
@@ -111,7 +111,7 @@ const SummaryPage = ({route, navigation}) => {
       <Button
         title="Back to Rental"
         onPress={() =>
-          navigation.navigate('Rental', {
+          navigation.navigate('Home', {
             username: rideData.username,
             token,
             amount: rideData.amount.toFixed(2),

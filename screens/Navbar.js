@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     width: 'full',
     zIndex: 1,
     borderBottomWidth: 5,
-    borderBottomColor: 'FF9900',
+    borderBottomColor: '#FF9900',
   },
   menuButton: {
     padding: 10,

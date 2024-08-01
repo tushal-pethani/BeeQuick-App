@@ -30,7 +30,6 @@ AppRegistry.registerComponent(
     const backgroundStyle = {
       backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
-
     return (
       <AuthProvider>
         <AppNavigator />

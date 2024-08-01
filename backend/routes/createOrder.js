@@ -50,4 +50,16 @@ router.post('/savePayment', async (req, res) => {
   }
 });
 
+router.post('/getPayment', async (req, res) => {
+  try {
+    const {userId} = req.body;
+    if (!userId) {
+      return res.status(400).json({message: 'User id is required'});
+    }
+    const user = await User.findById(userId).populate('payment_history');
+    return res.status(200).json(user.payment_history);
+  } catch (error) {
+    return res.status(500).json({message: 'Internal Server Error'});
+  }
+});
 module.exports = router;

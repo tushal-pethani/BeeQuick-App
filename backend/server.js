@@ -9,6 +9,7 @@ const {verifyToken} = require('./middlewares/auth'); // Middleware for JWT verif
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const app = express();
+const bodyParser = require('body-parser');
 const createOrder = require('./routes/createOrder');
 
 // Connect to the database
@@ -17,7 +18,7 @@ connectDB();
 app.use(cookieParser());
 // Middleware for parsing JSON
 app.use(express.json());
-
+app.use(bodyParser.json());
 // Cookie-Parser
 app.use(cookieParser());
 

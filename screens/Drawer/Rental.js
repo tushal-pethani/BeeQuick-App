@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -11,14 +11,13 @@ import {
 import axios from 'axios';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import BikeCard from '../components/BikeCard';
-import {useAuth} from '../context/AuthContext';
+import BikeCard from '../../components/BikeCard';
+import {useAuth} from '../../context/AuthContext';
 import CookieManager from '@react-native-cookies/cookies';
 import {RAZORPAY_API_KEY, RAZORPAY_APT_SECRET} from '@env';
 import RazorpayCheckout from 'react-native-razorpay';
-import Navbar from './Navbar';
-const Payment = require('../backend/models/Payment');
-const mongoose = require('mongoose');
+import Navbar from '../Navbar';
+import {UserContext} from '../../context/UserProvider';
 
 const Rental = ({navigation, route}) => {
   const [bikes, setBikes] = useState([]);
@@ -26,6 +25,7 @@ const Rental = ({navigation, route}) => {
   const [userId, setUserId] = useState(null);
   const [balance, setBalance] = useState(0);
   const [isThereAnyBalance, setIsThereAnyBalance] = useState(1);
+  const {setUser} = useContext(UserContext);
   // const { userId } = useAuth(); // Access userId and token
   const getUserId = async () => {
     try {
@@ -54,10 +54,25 @@ const Rental = ({navigation, route}) => {
       console.error('Error fetching balance:', error);
     }
   };
+  const getNewUser = async () => {
+    // console.log(userId);
+    try {
+      const response = await axios.post(
+        'http://192.168.29.20:3000/api/userid/get-username',
+        {username: userId},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      setUser({user: response.data});
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
+  };
   useEffect(() => {
     getUserId();
-  }, []);
-  useEffect(() => {
     CookieManager.get('http://192.168.29.20:3000')
       .then(cookies => {
         if (cookies.token) {
@@ -72,6 +87,7 @@ const Rental = ({navigation, route}) => {
   useEffect(() => {
     if (userId && token) {
       fetchBalance();
+      getNewUser();
     }
   }, [userId, token]);
 
@@ -79,8 +95,9 @@ const Rental = ({navigation, route}) => {
     if (route.params?.username && route.params?.token) {
       setUserId(route.params.username);
       setToken(route.params.token);
+      setBalance(balance - route.params?.amount);
+      getNewUser();
     }
-    setBalance(balance - route.params?.amount);
   }, [route.params]);
 
   const formik = useFormik({

@@ -1,5 +1,5 @@
 // screens/LoginScreen.js
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -11,8 +11,10 @@ import {
 import axios from 'axios';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import {UserContext} from '../context/UserProvider';
 
 const Login = ({navigation}) => {
+  const {setUser} = useContext(UserContext);
   const formik = useFormik({
     initialValues: {
       login: '',
@@ -28,9 +30,11 @@ const Login = ({navigation}) => {
           'http://192.168.29.20:3000/api/auth/login',
           values,
         );
-        console.log(response.data);
         Alert.alert('Success', 'Login successful!');
-        navigation.navigate('MyDrawer', {screen: 'Rental'});
+        setUser(response.data);
+        navigation.navigate('MyDrawer', {
+          screen: 'Rental',
+        });
       } catch (error) {
         console.error('Error:', error);
         if (error.response) {
@@ -44,7 +48,7 @@ const Login = ({navigation}) => {
       }
     },
   });
-
+  //
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>

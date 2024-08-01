@@ -100,9 +100,7 @@ router.post('/charge', async (req, res) => {
     const user = await User.findById(userId);
     const cur_balance = user.balance;
     const cur_charge = parseFloat(charge);
-    console.log(charge);
     user.balance = cur_balance - cur_charge;
-    console.log(user.balance);
     await user.save();
     return res.status(200).json(user.balance);
   } catch (error) {
