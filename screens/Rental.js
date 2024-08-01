@@ -18,7 +18,7 @@ const Rental = ({ navigation }) => {
   const getUserId = async () => {
     try {
       // Make the request to your backend endpoint
-      const response = await axios.get('http://192.168.1.2:3000/api/userid/get-user-id', { withCredentials: true });
+      const response = await axios.get('http://192.168.1.7:3000/api/userid/get-user-id', { withCredentials: true });
       setUserId(response.data.userId);
   
       // console.log('User ID:', userId);
@@ -34,7 +34,7 @@ const Rental = ({ navigation }) => {
 
   useEffect(() => {
     // Fetch the token from cookies
-    CookieManager.get('http://192.168.1.2:3000')
+    CookieManager.get('http://192.168.1.7:3000')
       .then((cookies) => {
         if (cookies.token) {
           setToken(cookies.token.value);
@@ -67,7 +67,7 @@ const Rental = ({ navigation }) => {
 
       try {
         const response = await axios.post(
-          'http://192.168.1.2:3000/api/bicycles/available',
+          'http://192.168.1.7:3000/api/bicycles/available',
           values,
           {
             headers: {
@@ -91,7 +91,7 @@ const Rental = ({ navigation }) => {
     if (text.length > 0) {
       try {
         const response = await axios.post(
-          'http://192.168.1.2:3000/api/locations/search',
+          'http://192.168.1.7:3000/api/locations/search',
           { query: text },
           {
             headers: {
@@ -119,7 +119,7 @@ const Rental = ({ navigation }) => {
     // console.log(bikeId);
     // console.log(token);
     try {
-      const locationResponse = await axios.post('http://192.168.1.2:3000/api/locations/locid', { loc_id: formik.values.loc_id });
+      const locationResponse = await axios.post('http://192.168.1.7:3000/api/locations/locid', { loc_id: formik.values.loc_id });
       const location = locationResponse.data;
 
       if (!location) {
@@ -129,7 +129,7 @@ const Rental = ({ navigation }) => {
 
       // console.log(location._id);
 
-      const response = await axios.post('http://192.168.1.2:3000/api/rides/create', {
+      const response = await axios.post('http://192.168.1.7:3000/api/rides/create', {
         username: userId,
         bikeId: bikeId,
         loc_pick: location._id,
@@ -148,7 +148,7 @@ const Rental = ({ navigation }) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://192.168.1.2:3000/api/auth/logout', {}, { withCredentials: true });
+      await axios.post('http://192.168.1.7:3000/api/auth/logout', {}, { withCredentials: true });
       await AsyncStorage.removeItem('authToken');
       navigation.navigate('Login');
     } catch (error) {

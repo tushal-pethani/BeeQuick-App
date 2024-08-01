@@ -107,9 +107,9 @@ router.put('/end', async (req, res) => {
 });
 
 // Get rides for a specific user
-router.get('/user/:username', async (req, res) => {
-  const { username } = req.params;
-
+router.get('/user', async (req, res) => {
+  const { username } = req.body;
+  // console.log(username);
   try {
     const rides = await Ride.find({ username }).populate('username bikeId loc_pick loc_drop');
     if (rides.length === 0) {
