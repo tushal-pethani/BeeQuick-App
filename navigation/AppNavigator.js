@@ -11,9 +11,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {UserProvider} from '../context/UserProvider';
 import ContactUs from '../screens/Drawer/ContactUs';
 const Stack = createStackNavigator();
-
-function AppNavigator() {
-  return (
         // <Stack.Navigator initialRouteName="Initial">
     //   <Stack.Screen 
     //     name="Initial" 
@@ -46,6 +43,9 @@ function AppNavigator() {
     //     options={{ headerShown: false }} 
     //   />
     // </Stack.Navigator>
+function AppNavigator() {
+  return (
+
     <UserProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Initial">
