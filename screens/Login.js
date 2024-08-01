@@ -12,6 +12,7 @@ import axios from 'axios';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {UserContext} from '../context/UserProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({navigation}) => {
   const {setUser} = useContext(UserContext);
@@ -26,10 +27,14 @@ const Login = ({navigation}) => {
     }),
     onSubmit: async values => {
       try {
-        const response = await axios.post(
-          'http://192.168.29.20:3000/api/auth/login',
-          values,
-        );
+                // const response = await axios.post(
+        //   'http://192.168.29.20:3000/api/auth/login',
+        //   values,
+        // );
+        const response = await axios.post('http://192.168.29.20:3000/api/auth/login', values);
+        const { token } = response.data;
+        await AsyncStorage.setItem('authToken', token); // Store the token
+        // console.log(response.data);
         Alert.alert('Success', 'Login successful!');
         setUser(response.data);
         navigation.navigate('MyDrawer', {

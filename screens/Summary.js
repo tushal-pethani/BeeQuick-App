@@ -20,7 +20,9 @@ const SummaryPage = ({route, navigation}) => {
           },
         },
       );
+      // const dropLocRes = await axios.post('http://192.168.1.7:3000/api/locations/droplocid', { loc_drop });
       const dropLoc = dropLocRes.data;
+      // const locRes = await axios.post('http://192.168.1.7:3000/api/locations/pickuplocid', { loc_pick });
       const locRes = await axios.post(
         'http://192.168.29.20:3000/api/locations/pickuplocid',
         {loc_pick: rideData.loc_pick},
@@ -50,6 +52,9 @@ const SummaryPage = ({route, navigation}) => {
           },
         },
       );
+      // const userRes = await axios.post('http://192.168.1.7:3000/api/userid/get-username', { username });
+      // const user = userRes.data;
+      // const bikeRes = await axios.post('http://192.168.1.7:3000/api/bicycles/get-bikeid', { bikeId });
       const bike = bikeRes.data;
 
       if (!dropLoc) {

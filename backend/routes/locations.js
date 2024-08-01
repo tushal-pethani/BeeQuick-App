@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Create a new location
 router.post('/create', async (req, res) => {
-  const { loc_id, loc_name } = req.body;
+  const { loc_id, loc_name, longitude, latitude } = req.body;
 
   try {
     // Check if the location ID already exists
@@ -15,7 +15,7 @@ router.post('/create', async (req, res) => {
     }
 
     // Create and save the new location
-    const newLocation = new Location({ loc_id, loc_name });
+    const newLocation = new Location({ loc_id, loc_name, longitude, latitude });
     await newLocation.save();
 
     res.status(201).json(newLocation);
@@ -47,6 +47,64 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// Search locations by query
+// router.get('/search', async (req, res) => {
+//   const query = req.query.query;
+
+//   if (!query) {
+//     return res.status(400).json({ message: 'Query is required' });
+//   }
+
+//   try {
+//     // Search by location ID or name (you can customize this as needed)
+//     console.log(query);
+//     // const locations = await Location.find({
+      // $or: [
+      //   { loc_id: { $regex: query, $options: 'i' } },
+      //   { loc_name: { $regex: query, $options: 'i' } }
+      // ]
+//     // });
+
+//     // res.json(locations);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// });
+
+
+// routes/locations.js
+
+// Route to search for locations by name
+router.post('/search', async (req, res) => {
+  const { query } = req.body;
+
+  if (!query) {
+    return res.status(400).json({ message: 'Query parameter is required' });
+  }
+
+  try {
+    // Search for locations by name, case-insensitive
+    const locations = await Location.find({
+      $or: [
+        { loc_id: { $regex: query, $options: 'i' } },
+        { loc_name: { $regex: query, $options: 'i' } }
+      ]
+    });
+
+    if (locations.length === 0) {
+      return res.status(404).json({ message: 'No locations found' });
+    }
+
+    res.json(locations);
+  } catch (error) {
+    console.error('Error fetching location suggestions:', error);
+    res.status(500).json({ message: 'Server Error', error: error.message });
+  }
+});
+
+
+
 
 router.post('/locid', async (req, res) => {
   const { loc_id } = req.body;
