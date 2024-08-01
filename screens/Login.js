@@ -18,7 +18,7 @@ const Login = ({ navigation }) => {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await axios.post('http://192.168.1.2:3000/api/auth/login', values);
+        const response = await axios.post('http://192.168.1.7:3000/api/auth/login', values);
         const { token } = response.data;
         await AsyncStorage.setItem('authToken', token); // Store the token
         // console.log(response.data);
