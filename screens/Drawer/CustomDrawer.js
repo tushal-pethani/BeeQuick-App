@@ -1,5 +1,7 @@
 import {ImageBackground, StyleSheet, Text, View, Image} from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useCallback, useEffect} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import {useDrawerStatus} from '@react-navigation/drawer';
 import axios from 'axios';
 import {
   DrawerContentScrollView,
@@ -18,6 +20,7 @@ function capitalizeFirstLetter(string) {
 }
 
 const CustomDrawer = props => {
+  const drawerStatus = useDrawerStatus();
   const {user} = useContext(UserContext);
   const userData = user.user;
   const {navigation} = props;
@@ -58,11 +61,11 @@ const CustomDrawer = props => {
                 color: '#fff',
                 fontFamily: 'Roboto-Regular',
               }}>
-              {userData.balance} Coins
+              {userData.email}
             </Text>
-            <FontAwesome5
+            <MaterialIcons
               style={{marginLeft: 5, marginTop: 4}}
-              name="coins"
+              name="mail-outline"
               size={14}
               color="#fff"
             />

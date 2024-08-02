@@ -116,7 +116,7 @@ const SummaryPage = ({route, navigation}) => {
       <Button
         title="Back to Rental"
         onPress={() =>
-          navigation.navigate('Home', {
+          navigation.navigate('MyDrawer', {
             username: rideData.username,
             token,
             amount: rideData.amount.toFixed(2),

@@ -27,13 +27,16 @@ const Login = ({navigation}) => {
     }),
     onSubmit: async values => {
       try {
-                // const response = await axios.post(
+        // const response = await axios.post(
         //   'http://192.168.29.20:3000/api/auth/login',
         //   values,
         // );
-        const response = await axios.post('http://192.168.29.20:3000/api/auth/login', values);
-        const { token } = response.data;
-        await AsyncStorage.setItem('authToken', token); // Store the token
+        const response = await axios.post(
+          'http://192.168.29.20:3000/api/auth/login',
+          values,
+        );
+        const {token} = response.data;
+        await AsyncStorage.setItem('user', JSON.stringify(response.data));
         // console.log(response.data);
         Alert.alert('Success', 'Login successful!');
         setUser(response.data);
