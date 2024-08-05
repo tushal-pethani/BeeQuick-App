@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect, useCallback} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,17 +9,30 @@ import {
 } from 'react-native';
 import {UserContext} from '../../context/UserProvider';
 import axios from 'axios';
+import {useFocusEffect} from '@react-navigation/native';
+import {IP} from '@env';
 
 const ProfileScreen = () => {
   const {user} = useContext(UserContext);
   const [rides, setRides] = useState([]);
   const userData = user.user;
-
+  const [balance, setBalance] = useState(0);
+  const fetchBalance = async () => {
+    try {
+      const response = await axios.post(
+        `http://${IP}:3000/api/auth/getBalance`,
+        {user_id: userData._id},
+      );
+      setBalance(response.data.balance);
+    } catch (error) {
+      console.error('Error fetching balance:', error);
+    }
+  };
   const getRides = async () => {
     const userId = userData._id;
     try {
       const response = await axios.post(
-        `http://192.168.29.20:3000/api/rides/user/id`,
+        `http://${IP}:3000/api/rides/user/id`,
         {id: userId},
         {
           headers: {
@@ -36,6 +49,11 @@ const ProfileScreen = () => {
   useEffect(() => {
     getRides();
   }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchBalance();
+    }, []),
+  );
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -58,7 +76,7 @@ const ProfileScreen = () => {
           {'\n'}Past Rides
         </Text>
         <Text style={styles.stat}>
-          {userData.balance}₹{'\n'}Balance
+          {balance}₹{'\n'}Balance
         </Text>
       </View>
       <ScrollView style={styles.ride}>

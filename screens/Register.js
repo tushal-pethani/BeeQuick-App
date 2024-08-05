@@ -1,11 +1,20 @@
 // screens/RegisterScreen.js
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  ScrollView,
+} from 'react-native';
 import axios from 'axios';
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import {IP} from '@env';
 
-const Register = ({ navigation }) => {
+const Register = ({navigation}) => {
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -28,13 +37,19 @@ const Register = ({ navigation }) => {
         .integer('Age must be an integer'),
       phone_number: Yup.string().required('Phone number is required'),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       try {
-        const response = await axios.post('http://192.168.29.20:3000/api/auth/register', values);
+        const response = await axios.post(
+          `http://${IP}:3000/api/auth/register`,
+          values,
+        );
         Alert.alert('Success', 'Registration successful!');
         navigation.navigate('Login');
       } catch (error) {
-        Alert.alert('Error', error.response?.data?.message || 'Registration failed');
+        Alert.alert(
+          'Error',
+          error.response?.data?.message || 'Registration failed',
+        );
       }
     },
   });

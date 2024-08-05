@@ -14,6 +14,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {UserContext} from '../../context/UserProvider';
 import ContactUs from './ContactUs'; // Import the ContactUs component
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {IP} from '@env';
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -27,7 +29,8 @@ const CustomDrawer = props => {
 
   const logout = async () => {
     try {
-      await axios.post('http://192.168.29.20:3000/api/auth/logout');
+      await axios.post(`http://${IP}:3000/api/auth/logout`);
+      await AsyncStorage.removeItem('user');
       console.log('Logged out successfully');
       navigation.navigate('Login'); // Navigate to the login screen
     } catch (error) {

@@ -47,7 +47,7 @@ router.post('/register', async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true, // Helps mitigate XSS attacks
       secure: process.env.NODE_ENV === 'production', // Use 'secure' cookies only in production
-      maxAge: 10 * 12 * 30 * 24 * 3600000 // Cookie expiration in milliseconds (1 hour)
+      maxAge: 10 * 12 * 30 * 24 * 3600000, // Cookie expiration in milliseconds (1 hour)
     });
 
     res.status(201).json({token, user: newUser});
@@ -69,12 +69,12 @@ router.post('/login', async (req, res) => {
     if (!isMatch) return res.status(400).json({message: 'Invalid credentials'});
 
     // Generate JWT
-    const token = jwt.sign({id: user._id}, JWT_SECRET, {expiresIn: '1h'});
+    const token = jwt.sign({id: user._id}, JWT_SECRET, {expiresIn: '10y'});
 
     res.cookie('token', token, {
       httpOnly: true, // Helps mitigate XSS attacks
       secure: process.env.NODE_ENV === 'production', // Use 'secure' cookies only in production
-      maxAge: 10 * 12 * 30 * 24 * 3600000 // Cookie expiration in milliseconds (1 hour)
+      maxAge: 10 * 12 * 30 * 24 * 3600000, // Cookie expiration in milliseconds (1 hour)
     });
 
     res.json({token, user});

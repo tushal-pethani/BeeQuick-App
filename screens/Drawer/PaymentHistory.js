@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {ScrollView, View, Text, StyleSheet} from 'react-native';
 import axios from 'axios';
 import {UserContext} from '../../context/UserProvider'; // Adjust the import path as needed
-
+import {IP} from '@env';
 const PaymentHistoryScreen = () => {
   const {user} = useContext(UserContext);
   const [payments, setPayments] = useState([]);
@@ -12,7 +12,7 @@ const PaymentHistoryScreen = () => {
     const userId = userData._id;
     try {
       const response = await axios.post(
-        'http://192.168.29.20:3000/api/payment/getPayment',
+        `http://${IP}:3000/api/payment/getPayment`,
         {userId: userId},
         {
           headers: {

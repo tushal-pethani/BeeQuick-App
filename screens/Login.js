@@ -13,6 +13,7 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {UserContext} from '../context/UserProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {IP} from '@env';
 
 const Login = ({navigation}) => {
   const {setUser} = useContext(UserContext);
@@ -32,7 +33,7 @@ const Login = ({navigation}) => {
         //   values,
         // );
         const response = await axios.post(
-          'http://192.168.29.20:3000/api/auth/login',
+          `http://${IP}:3000/api/auth/login`,
           values,
         );
         const {token} = response.data;

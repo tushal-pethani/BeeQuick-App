@@ -1,6 +1,6 @@
 // navigation/AppNavigator.js
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import Initial from '../screens/Initial';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
@@ -11,49 +11,17 @@ import {NavigationContainer} from '@react-navigation/native';
 import {UserProvider} from '../context/UserProvider';
 import ContactUs from '../screens/Drawer/ContactUs';
 const Stack = createStackNavigator();
-        // <Stack.Navigator initialRouteName="Initial">
-    //   <Stack.Screen 
-    //     name="Initial" 
-    //     component={Initial} 
-    //     options={{ headerShown: false }} 
-    //   />
-    //   <Stack.Screen 
-    //     name="Login" 
-    //     component={Login} 
-    //     options={{ headerShown: false }} 
-    //   />
-    //   <Stack.Screen 
-    //     name="Register" 
-    //     component={Register} 
-    //     options={{ headerShown: false }} 
-    //   />
-    //   <Stack.Screen 
-    //     name="Rental" 
-    //     component={Rental} 
-    //     options={{ headerShown: false }} 
-    //   />
-    //   <Stack.Screen 
-    //     name="Status" 
-    //     component={Status} 
-    //     options={{ headerShown: false }} 
-    //   />
-    //   <Stack.Screen 
-    //     name="Summary" 
-    //     component={Summary} 
-    //     options={{ headerShown: false }} 
-    //   />
-    // </Stack.Navigator>
+
 function AppNavigator() {
   return (
-
     <UserProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Initial">
-        <Stack.Screen 
-        name="Initial" 
-        component={Initial} 
-        options={{ headerShown: false }} 
-      />
+          <Stack.Screen
+            name="Initial"
+            component={Initial}
+            options={{headerShown: false}}
+          />
           <Stack.Screen
             name="Login"
             component={Login}
@@ -89,5 +57,5 @@ function AppNavigator() {
     </UserProvider>
   );
 }
-// navigation.navigate('MyDrawer', {screen: 'Rental'});
+
 export default AppNavigator;

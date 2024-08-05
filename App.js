@@ -21,6 +21,7 @@ import {
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {name as appName} from './app.json';
+import Splash from './screens/SplashScreen';
 
 AppRegistry.registerComponent(
   appName,
@@ -30,9 +31,10 @@ AppRegistry.registerComponent(
     const backgroundStyle = {
       backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
+    const [isLoading, setIsLoading] = useState(true);
     return (
       <AuthProvider>
-        <AppNavigator />
+        {isLoading ? <Splash setIsLoading={setIsLoading} /> : <AppNavigator />}
       </AuthProvider>
     );
   }),
