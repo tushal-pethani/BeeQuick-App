@@ -20,12 +20,13 @@ import RazorpayCheckout from 'react-native-razorpay';
 import Navbar from '../Navbar';
 import {UserContext} from '../../context/UserProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {IP} from '@env';
+import { IP } from '@env';
 
 const Rental = ({navigation, route}) => {
   const [bikes, setBikes] = useState([]);
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [locationSuggestions, setLocationSuggestions] = useState([]);  //
   const [balance, setBalance] = useState(0);
   const [isThereAnyBalance, setIsThereAnyBalance] = useState(1);
   const {setUser} = useContext(UserContext);
@@ -145,6 +146,37 @@ const Rental = ({navigation, route}) => {
     },
   });
 
+
+  const handleInputChange = async (text) => {
+    formik.setFieldValue('loc_id', text);
+  
+    if (text.length > 0) {
+      try {
+        const response = await axios.post(
+          `http://${IP}:3000/api/locations/search`,
+          { query: text },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setLocationSuggestions(response.data);
+      } catch (error) {
+        console.error('Error fetching location suggestions:', error);
+      }
+    } else {
+      setLocationSuggestions([]);
+    }
+  };
+  
+
+  const handleSelectLocation = (locationId) => {
+    formik.setFieldValue('loc_id', locationId);
+    setLocationSuggestions([]);
+  };
+
+
   const handleBook = async bikeId => {
     // console.log(formik.values.loc_id);
     // console.log(bikeId);
@@ -193,6 +225,9 @@ const Rental = ({navigation, route}) => {
         time_pick,
         token,
       });
+      // formik.setFieldValue('loc_id', '');
+      formik.resetForm(); // Clear the input field after booking
+      setBikes([]);
     } catch (error) {
       console.error('Error creating ride:', error);
     }
@@ -256,12 +291,27 @@ const Rental = ({navigation, route}) => {
         placeholder="Enter Pickup Location"
         placeholderTextColor="#999"
         value={formik.values.loc_id}
-        onChangeText={formik.handleChange('loc_id')}
+        onChangeText={handleInputChange} // Testing suggestion
+        // onChangeText={formik.handleChange('loc_id')}
         onBlur={formik.handleBlur('loc_id')}
       />
       {formik.touched.loc_id && formik.errors.loc_id ? (
         <Text style={styles.error}>{formik.errors.loc_id}</Text>
       ) : null}
+  
+      {locationSuggestions.length > 0 && (
+        <FlatList
+          data={locationSuggestions}
+          keyExtractor={(item) => item.loc_id.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handleSelectLocation(item.loc_id)}>
+              <Text style={styles.suggestionText}>{item.loc_name}</Text>
+            </TouchableOpacity>
+          )}
+          style={styles.suggestionList}
+        />
+      )}
+  
       <TouchableOpacity
         style={styles.button}
         onPress={formik.handleSubmit}
@@ -269,7 +319,7 @@ const Rental = ({navigation, route}) => {
         <Text style={styles.buttonText}>Search Bikes</Text>
       </TouchableOpacity>
       {isThereAnyBalance === 1 ? (
-        ''
+        null
       ) : (
         <>
           <Text style={styles.error}>You have no balance in your wallet</Text>
@@ -281,7 +331,7 @@ const Rental = ({navigation, route}) => {
       {formik.errors.submit && (
         <Text style={styles.error}>{formik.errors.submit}</Text>
       )}
-
+  
       {bikes.length === 0 ? (
         <Text style={styles.noBikesText}>No Bicycles available right now</Text>
       ) : (
@@ -294,7 +344,7 @@ const Rental = ({navigation, route}) => {
         />
       )}
     </View>
-  );
+  );  
 };
 const styles = StyleSheet.create({
   container: {
@@ -302,13 +352,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#FFFBD0',
+    // backgroundColor: '#FFFBD0',
+    backgroundColor: '#ffdd66', // lighter shade of #ffcc31
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 40,
-    color: '#333',
+    // color: '#333',
+    color: '#424242', // black with shade 700
   },
   input: {
     width: '100%',
@@ -323,7 +375,8 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     padding: 15,
-    backgroundColor: '#f8e90b',
+    // backgroundColor: '#f8e90b',
+    backgroundColor: '#424242', // black with shade 700
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 20,
@@ -336,6 +389,22 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 12,
+  },
+  suggestionList: {
+    width: '100%',
+    maxHeight: 150,
+    // backgroundColor: '#fff',
+    backgroundColor: '#FFFBD0',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  suggestionText: {
+    padding: 10,
+    color: '#888',
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
   },
   noBikesText: {
     fontSize: 18,
@@ -399,3 +468,108 @@ const styles = StyleSheet.create({
 // });
 
 export default Rental;
+
+
+
+
+// const styles = StyleSheet.create({
+//   container: {
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // padding: 20,
+    // backgroundColor: '#FFFBD0',
+//   },
+//   title: {
+//     fontSize: 32,
+//     fontWeight: 'bold',
+//     marginBottom: 40,
+//     color: '#333',
+//   },
+//   input: {
+    // width: '100%',
+    // padding: 15,
+    // marginBottom: 20,
+    // borderWidth: 1,
+    // borderColor: '#FF9900',
+    // borderRadius: 8,
+    // backgroundColor: '#fff',
+    // color: '#333',
+//   },
+//   button: {
+//     width: '100%',
+//     padding: 15,
+//     backgroundColor: '#f8e90b',
+//     borderRadius: 8,
+//     alignItems: 'center',
+//     marginBottom: 20,
+//   },
+//   buttonText: {
+//     color: '#fff',
+//     fontWeight: 'bold',
+//     fontSize: 16,
+//   },
+//   error: {
+//     color: 'red',
+//     marginBottom: 12,
+//   },
+//   noBikesText: {
+//     fontSize: 18,
+//     color: '#888',
+//     textAlign: 'center',
+//     marginVertical: 20,
+//   },
+// });
+
+// // const styles = StyleSheet.create({
+// //   container: {
+// //     flex: 1,
+// //     justifyContent: 'center',
+// //     alignItems: 'center',
+// //     padding: 20,
+// //     backgroundColor: '#f9f9f9',
+// //   },
+// //   title: {
+// //     fontSize: 32,
+// //     fontWeight: 'bold',
+// //     marginBottom: 40,
+// //     color: '#333',
+// //   },
+// //   input: {
+// //     width: '100%',
+// //     padding: 15,
+// //     marginBottom: 20,
+// //     borderWidth: 1,
+// //     borderColor: '#ccc',
+// //     borderRadius: 8,
+// //     backgroundColor: '#fff',
+// //     color: '#333',
+// //   },
+// //   button: {
+// //     width: '100%',
+// //     padding: 15,
+// //     backgroundColor: '#4CAF50',
+// //     borderRadius: 8,
+// //     alignItems: 'center',
+// //     marginBottom: 20,
+// //   },
+// //   buttonText: {
+// //     color: '#fff',
+// //     fontWeight: 'bold',
+// //     fontSize: 16,
+// //   },
+// //   switchText: {
+// //     marginTop: 20,
+// //     color: '#333',
+// //   },
+// //   error: {
+// //     color: 'red',
+// //     marginBottom: 12,
+// //   },
+// //   noBikesText: {
+// //     fontSize: 18,
+// //     color: '#888',
+// //     textAlign: 'center',
+// //     marginVertical: 20,
+// //   },
+// // });
