@@ -44,8 +44,11 @@ const ContactUs = ({route}) => {
 
   return (
     <DrawerContentScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Contact Us</Text>
-      <View style={styles.inputBox}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Contact Us</Text>
+      </View>
+      {/* <View style={styles.innerContainer}> */}
+      {/* <View style={styles.inputBox}> */}
         <Text style={styles.label}>Username</Text>
         <TextInput
           style={styles.input}
@@ -54,8 +57,8 @@ const ContactUs = ({route}) => {
           placeholder="Enter your username"
           placeholderTextColor="#888"
         />
-      </View>
-      <View style={styles.inputBox}>
+      {/* </View> */}
+      {/* <View style={styles.inputBox}> */}
         <Text style={styles.label}>Query</Text>
         <TextInput
           style={[styles.input, styles.textArea]}
@@ -65,7 +68,8 @@ const ContactUs = ({route}) => {
           placeholderTextColor="#888"
           multiline
         />
-      </View>
+      {/* </View> */}
+      {/* </View> */}
       <TouchableOpacity style={styles.button} onPress={onSubmit}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
@@ -73,71 +77,129 @@ const ContactUs = ({route}) => {
   );
 };
 
+// const styles = StyleSheet.create({
+//   inputBox: {
+//     alignSelf: 'center',
+//   },
+//   container: {
+//     flexGrow: 1,
+//     padding: 20,
+//     backgroundColor: '#FFFBD0',
+//     justifyContent: 'center',
+//   },
+//   title: {
+//     fontSize: 24,
+//     fontWeight: 'bold',
+//     marginBottom: 20,
+//     textAlign: 'center',
+//     color: '#fff',
+//     textShadowColor: '#000',
+//     textShadowOffset: {width: 1, height: 1},
+//     textShadowRadius: 5,
+//   },
+//   label: {
+//     fontSize: 16,
+//     marginBottom: 8,
+//     color: '#fff',
+//   },
+//   input: {
+//     width: 350,
+//     height: 40,
+//     borderColor: '#ccc',
+//     borderWidth: 1,
+//     marginBottom: 20,
+//     color: 'black',
+//     paddingHorizontal: 10,
+//     borderRadius: 5,
+//     backgroundColor: '#fff',
+//     shadowColor: '#000',
+//     shadowOffset: {width: 0, height: 2},
+//     shadowOpacity: 0.8,
+//     shadowRadius: 2,
+//     elevation: 5,
+//   },
+//   textArea: {
+//     height: 100,
+//     textAlignVertical: 'top',
+//   },
+//   button: {
+//     width: 350,
+//     alignSelf: 'center',
+//     backgroundColor: '#FF5722',
+//     padding: 15,
+//     borderRadius: 5,
+//     alignItems: 'center',
+//     shadowColor: '#000',
+//     shadowOffset: {width: 0, height: 2},
+//     shadowOpacity: 0.8,
+//     shadowRadius: 2,
+//     elevation: 5,
+//     transform: [{scale: 1}],
+//     transition: 'transform 0.2s',
+//   },
+//   buttonText: {
+//     color: '#fff',
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+// });
+
+
 const styles = StyleSheet.create({
-  inputBox: {
-    alignSelf: 'center',
-  },
   container: {
-    flexGrow: 1,
-    padding: 20,
-    backgroundColor: '#FFFBD0',
+    flex: 1,
     justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 35,
+    paddingBottom: 20,
+    // backgroundColor: '#f9f9f9',
+    backgroundColor: '#ffdd66', // lighter shade of #ffcc31
+  },
+  titleContainer: {
+    alignItems: 'center', // Center the title horizontally
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-    color: '#fff',
-    textShadowColor: '#000',
-    textShadowOffset: {width: 1, height: 1},
-    textShadowRadius: 5,
+    marginBottom: 40,
+    // color: '#333',
+    color: '#424242', // same black color used for button
   },
   label: {
     fontSize: 16,
-    marginBottom: 8,
-    color: '#fff',
+    marginTop: 10,
+    marginBottom: 5,
+    // color: '#333',
+    color: '#424242', // same black color used for button
   },
   input: {
-    width: 350,
-    height: 40,
-    borderColor: '#ccc',
+    width: '90%',
+    padding: 15,
+    marginBottom: 10,
     borderWidth: 1,
-    marginBottom: 20,
-    color: 'black',
-    paddingHorizontal: 10,
-    borderRadius: 5,
+    borderColor: '#ccc',
+    borderRadius: 8,
     backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
+    color: '#333',
   },
   textArea: {
     height: 100,
     textAlignVertical: 'top',
   },
   button: {
-    width: 350,
-    alignSelf: 'center',
-    backgroundColor: '#FF5722',
+    width: '90%',
     padding: 15,
-    borderRadius: 5,
+    // backgroundColor: '#4CAF50',
+    backgroundColor: '#424242', // black with shade 700
+    borderRadius: 8,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-    transform: [{scale: 1}],
-    transition: 'transform 0.2s',
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
     fontWeight: 'bold',
+    fontSize: 16,
   },
 });
+
 
 export default ContactUs;

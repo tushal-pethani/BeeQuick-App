@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Button, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 
 const BikeCard = ({ bike, onBook }) => {
   return (
     <View style={styles.card}>
       <Text style={styles.bikeId}>Bike ID: {bike.bikeId}</Text>
-      <Button title="Book" onPress={onBook} />
+      {/* <Button style={styles.bookButton} title="Book" onPress={onBook} /> */}
+      <TouchableOpacity style={styles.bookButton} onPress={onBook}>
+        <Text style={styles.buttonText}>book</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -15,7 +18,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#f8f9fa',
+    // backgroundColor: '#f8f9fa',
+    backgroundColor: '#FFFBD0',
     padding: 15,
     marginVertical: 10,
     borderRadius: 10,
@@ -30,10 +34,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     flex: 3, // Take 3/4th of the space
-    color: '#333',
+    // color: '#333',
+    color: '#424242',
   },
   bookButton: {
     flex: 1, // Take 1/4th of the space
+    backgroundColor: '#424242',
+    padding: 7,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 

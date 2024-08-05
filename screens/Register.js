@@ -4,6 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView 
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { IP } from '@env';
 
 const Register = ({ navigation }) => {
   const formik = useFormik({
@@ -30,7 +31,7 @@ const Register = ({ navigation }) => {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await axios.post('http://192.168.29.20:3000/api/auth/register', values);
+        const response = await axios.post(`http://${IP}:3000/api/auth/register`, values);
         Alert.alert('Success', 'Registration successful!');
         navigation.navigate('Login');
       } catch (error) {
@@ -126,7 +127,7 @@ const Register = ({ navigation }) => {
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.switchText}>Already have an account? Login</Text>
+          <Text style={styles.switchText}>Already have an account? <Text style={styles.span}>Login</Text></Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -139,13 +140,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f9f9f9',
+    // backgroundColor: '#f9f9f9',
+    backgroundColor: '#ffdd66', // lighter shade of #ffcc31
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 40,
-    color: '#333',
+    // color: '#333',
+    color: '#424242', // same black color used for button
   },
   input: {
     width: '100%',
@@ -160,7 +163,8 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     padding: 15,
-    backgroundColor: '#4CAF50',
+    // backgroundColor: '#4CAF50',
+    backgroundColor: '#424242', // black with shade 700
     borderRadius: 8,
     alignItems: 'center',
   },
@@ -171,7 +175,11 @@ const styles = StyleSheet.create({
   },
   switchText: {
     marginTop: 20,
-    color: '#333',
+    // color: '#333',
+    color: '#424242', // same black color used for button
+  },
+  span: {
+    color: 'blue',
   },
   error: {
     color: 'red',
