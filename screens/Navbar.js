@@ -12,7 +12,7 @@ const Navbar = ({balance}) => {
         onPress={() => {
           navigation.openDrawer();
         }}>
-        <MaterialIcons name="menu" size={24} color="#fff" />
+        <MaterialIcons name="menu" size={24} color="#424242" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.balance}>
         <Text style={styles.balanceText}>Balance: </Text>
@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#f8e90b',
+    // backgroundColor: '#f8e90b',
+    backgroundColor: '#ffdd66', // lighter shade of #ffcc31
     color: 'black',
     padding: 10,
     position: 'absolute',
@@ -37,10 +38,12 @@ const styles = StyleSheet.create({
     width: 'full',
     zIndex: 1,
     borderBottomWidth: 5,
-    borderBottomColor: '#FF9900',
+    // borderBottomColor: '#FF9900',
+    borderBottomColor: '#ffdd66', // lighter shade of #ffcc31
   },
   menuButton: {
     padding: 10,
+    // color: '#424242',
   },
   detailsButton: {
     position: 'absolute',
@@ -54,14 +57,16 @@ const styles = StyleSheet.create({
     color: '#6200EE',
   },
   balanceText: {
-    color: '#fff',
+    // color: '#fff',
+    color: '#424242',
     fontSize: 20,
   },
   balance: {
     flexDirection: 'row',
   },
   balanceValue: {
-    backgroundColor: 'black', // Black background color
+    // backgroundColor: 'black', // Black background color
+    backgroundColor: '#424242',
     paddingVertical: 5, // Add padding
     paddingHorizontal: 15,
     borderRadius: 5, // Add border radius

@@ -49,11 +49,11 @@ function AppNavigator() {
     <UserProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Initial">
-        <Stack.Screen 
-        name="Initial" 
-        component={Initial} 
-        options={{ headerShown: false }} 
-      />
+          <Stack.Screen 
+            name="Initial" 
+            component={Initial} 
+            options={{ headerShown: false }} 
+          />
           <Stack.Screen
             name="Login"
             component={Login}
