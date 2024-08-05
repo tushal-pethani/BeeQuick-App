@@ -49,6 +49,7 @@ const ContactUs = ({route}) => {
       </View>
       {/* <View style={styles.innerContainer}> */}
       {/* <View style={styles.inputBox}> */}
+      <View style={{alignSelf: 'center', width: '90%', marginLeft: 'auto'}}>
         <Text style={styles.label}>Username</Text>
         <TextInput
           style={styles.input}
@@ -57,8 +58,10 @@ const ContactUs = ({route}) => {
           placeholder="Enter your username"
           placeholderTextColor="#888"
         />
+      </View>
       {/* </View> */}
       {/* <View style={styles.inputBox}> */}
+      <View style={{alignSelf: 'center', width: '90%', marginLeft: 'auto'}}>
         <Text style={styles.label}>Query</Text>
         <TextInput
           style={[styles.input, styles.textArea]}
@@ -68,11 +71,14 @@ const ContactUs = ({route}) => {
           placeholderTextColor="#888"
           multiline
         />
+      </View>
       {/* </View> */}
       {/* </View> */}
-      <TouchableOpacity style={styles.button} onPress={onSubmit}>
-        <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
+      <View style={{alignSelf: 'center', width: '90%'}}>
+        <TouchableOpacity style={styles.button} onPress={onSubmit}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
     </DrawerContentScrollView>
   );
 };
@@ -144,14 +150,10 @@ const ContactUs = ({route}) => {
 //   },
 // });
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingLeft: 35,
-    paddingBottom: 20,
     // backgroundColor: '#f9f9f9',
     backgroundColor: '#ffdd66', // lighter shade of #ffcc31
   },
@@ -162,6 +164,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 40,
+    alignSelf: 'center',
     // color: '#333',
     color: '#424242', // same black color used for button
   },
@@ -188,11 +191,14 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '90%',
-    padding: 15,
+    paddingVertical: 15,
+    marginTop: 30,
     // backgroundColor: '#4CAF50',
     backgroundColor: '#424242', // black with shade 700
     borderRadius: 8,
     alignItems: 'center',
+    alignSelf: 'center',
+    width: '90%',
   },
   buttonText: {
     color: '#fff',
@@ -200,6 +206,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
 
 export default ContactUs;

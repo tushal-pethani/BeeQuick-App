@@ -20,13 +20,13 @@ import RazorpayCheckout from 'react-native-razorpay';
 import Navbar from '../Navbar';
 import {UserContext} from '../../context/UserProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { IP } from '@env';
+import {IP} from '@env';
 
 const Rental = ({navigation, route}) => {
   const [bikes, setBikes] = useState([]);
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [locationSuggestions, setLocationSuggestions] = useState([]);  //
+  const [locationSuggestions, setLocationSuggestions] = useState([]); //
   const [balance, setBalance] = useState(0);
   const [isThereAnyBalance, setIsThereAnyBalance] = useState(1);
   const {setUser} = useContext(UserContext);
@@ -54,6 +54,8 @@ const Rental = ({navigation, route}) => {
       //   userData.balance;
       // } else {
       setBalance(response.data.balance);
+      console.log(balance);
+
       // }
     } catch (error) {
       console.error('Error fetching balance:', error);
@@ -146,20 +148,19 @@ const Rental = ({navigation, route}) => {
     },
   });
 
-
-  const handleInputChange = async (text) => {
+  const handleInputChange = async text => {
     formik.setFieldValue('loc_id', text);
-  
+
     if (text.length > 0) {
       try {
         const response = await axios.post(
           `http://${IP}:3000/api/locations/search`,
-          { query: text },
+          {query: text},
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         setLocationSuggestions(response.data);
       } catch (error) {
@@ -169,13 +170,11 @@ const Rental = ({navigation, route}) => {
       setLocationSuggestions([]);
     }
   };
-  
 
-  const handleSelectLocation = (locationId) => {
+  const handleSelectLocation = locationId => {
     formik.setFieldValue('loc_id', locationId);
     setLocationSuggestions([]);
   };
-
 
   const handleBook = async bikeId => {
     // console.log(formik.values.loc_id);
@@ -298,12 +297,12 @@ const Rental = ({navigation, route}) => {
       {formik.touched.loc_id && formik.errors.loc_id ? (
         <Text style={styles.error}>{formik.errors.loc_id}</Text>
       ) : null}
-  
+
       {locationSuggestions.length > 0 && (
         <FlatList
           data={locationSuggestions}
-          keyExtractor={(item) => item.loc_id.toString()}
-          renderItem={({ item }) => (
+          keyExtractor={item => item.loc_id.toString()}
+          renderItem={({item}) => (
             <TouchableOpacity onPress={() => handleSelectLocation(item.loc_id)}>
               <Text style={styles.suggestionText}>{item.loc_name}</Text>
             </TouchableOpacity>
@@ -311,16 +310,14 @@ const Rental = ({navigation, route}) => {
           style={styles.suggestionList}
         />
       )}
-  
+
       <TouchableOpacity
         style={styles.button}
         onPress={formik.handleSubmit}
         disabled={formik.isSubmitting}>
         <Text style={styles.buttonText}>Search Bikes</Text>
       </TouchableOpacity>
-      {isThereAnyBalance === 1 ? (
-        null
-      ) : (
+      {isThereAnyBalance === 1 ? null : (
         <>
           <Text style={styles.error}>You have no balance in your wallet</Text>
           <TouchableOpacity style={styles.button} onPress={handlePayment}>
@@ -331,7 +328,7 @@ const Rental = ({navigation, route}) => {
       {formik.errors.submit && (
         <Text style={styles.error}>{formik.errors.submit}</Text>
       )}
-  
+
       {bikes.length === 0 ? (
         <Text style={styles.noBikesText}>No Bicycles available right now</Text>
       ) : (
@@ -344,7 +341,7 @@ const Rental = ({navigation, route}) => {
         />
       )}
     </View>
-  );  
+  );
 };
 const styles = StyleSheet.create({
   container: {
@@ -469,16 +466,13 @@ const styles = StyleSheet.create({
 
 export default Rental;
 
-
-
-
 // const styles = StyleSheet.create({
 //   container: {
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // padding: 20,
-    // backgroundColor: '#FFFBD0',
+// flex: 1,
+// justifyContent: 'center',
+// alignItems: 'center',
+// padding: 20,
+// backgroundColor: '#FFFBD0',
 //   },
 //   title: {
 //     fontSize: 32,
@@ -487,14 +481,14 @@ export default Rental;
 //     color: '#333',
 //   },
 //   input: {
-    // width: '100%',
-    // padding: 15,
-    // marginBottom: 20,
-    // borderWidth: 1,
-    // borderColor: '#FF9900',
-    // borderRadius: 8,
-    // backgroundColor: '#fff',
-    // color: '#333',
+// width: '100%',
+// padding: 15,
+// marginBottom: 20,
+// borderWidth: 1,
+// borderColor: '#FF9900',
+// borderRadius: 8,
+// backgroundColor: '#fff',
+// color: '#333',
 //   },
 //   button: {
 //     width: '100%',
