@@ -12,7 +12,7 @@ import {
 import axios from 'axios';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import { IP } from '@env';
+import {IP} from '@env';
 
 const Register = ({navigation}) => {
   const formik = useFormik({
@@ -141,7 +141,9 @@ const Register = ({navigation}) => {
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.switchText}>Already have an account? <Text style={styles.span}>Login</Text></Text>
+          <Text style={styles.switchText}>
+            Already have an account? <Text style={styles.span}>Login</Text>
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -154,6 +156,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    paddingBottom: 90,
     // backgroundColor: '#f9f9f9',
     backgroundColor: '#ffdd66', // lighter shade of #ffcc31
   },

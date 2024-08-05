@@ -258,11 +258,15 @@ const StatusPage = ({route, navigation}) => {
 
       <ScrollView style={styles.detailsContainer}>
         <Text style={styles.label}>Ride Details</Text>
-        <Text style={styles.text}>Username: {nameOfUser}</Text>
-        <Text style={styles.text}>Bike ID: {realBikeId}</Text>
-        <Text style={styles.text}>Pickup Location: {pickUpLocation}</Text>
         <Text style={styles.text}>
-          Pickup Time: {new Date(time_pick).toLocaleString()}
+          <Text styles={styles.span}>Bike ID:</Text> {realBikeId}
+        </Text>
+        <Text style={styles.text}>
+          <Text styles={styles.span}>Pickup Location:</Text> {pickUpLocation}
+        </Text>
+        <Text style={styles.text}>
+          <Text styles={styles.span}>Pickup Time:</Text>{' '}
+          {new Date(time_pick).toLocaleString()}
         </Text>
         <TextInput
           style={styles.input}
@@ -365,6 +369,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#fff',
     color: '#333',
+  },
+  span: {
+    fontWeight: 'bold',
   },
   // input: {
   //   height: 40,
