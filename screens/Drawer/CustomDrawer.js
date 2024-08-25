@@ -125,12 +125,6 @@
 
 // const styles = StyleSheet.create({});
 
-
-
-
-
-
-
 import {ImageBackground, StyleSheet, Text, View, Image} from 'react-native';
 import React, {useContext, useState, useCallback, useEffect} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
@@ -148,7 +142,8 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {UserContext} from '../../context/UserProvider';
 import ContactUs from './ContactUs'; // Import the ContactUs component
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { IP } from '@env';
+// import { IP } from '@env';
+const IPa = process.env.IP;
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -162,7 +157,7 @@ const CustomDrawer = props => {
 
   const logout = async () => {
     try {
-      await axios.post(`http://${IP}:3000/api/auth/logout`);
+      await axios.post(`http://${IPa}:3000/api/auth/logout`);
       await AsyncStorage.removeItem('user');
       console.log('Logged out successfully');
       navigation.navigate('Login'); // Navigate to the login screen

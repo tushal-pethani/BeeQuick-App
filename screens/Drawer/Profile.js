@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, {useContext, useState, useEffect, useCallback} from 'react';
 import {
   StyleSheet,
   View,
@@ -10,7 +10,8 @@ import {
 import {UserContext} from '../../context/UserProvider';
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
-import { IP } from '@env';
+// import { IP } from '@env';
+const IPa = process.env.IP;
 
 const ProfileScreen = () => {
   const {user} = useContext(UserContext);
@@ -21,7 +22,7 @@ const ProfileScreen = () => {
   const fetchBalance = async () => {
     try {
       const response = await axios.post(
-        `http://${IP}:3000/api/auth/getBalance`,
+        `http://${IPa}:3000/api/auth/getBalance`,
         {user_id: userData._id},
       );
       setBalance(response.data.balance);
@@ -34,7 +35,7 @@ const ProfileScreen = () => {
     const userId = userData._id;
     try {
       const response = await axios.post(
-        `http://${IP}:3000/api/rides/user/id`,
+        `http://${IPa}:3000/api/rides/user/id`,
         {id: userId},
         {
           headers: {
@@ -86,11 +87,23 @@ const ProfileScreen = () => {
       <ScrollView style={styles.ride}>
         {rides.map(ride => (
           <View key={ride._id} style={styles.rideContainer}>
-            <Text style={styles.rideText}><Text style={styles.span}>Ride ID:</Text> {ride._id}</Text>
-            <Text style={styles.rideText}><Text style={styles.span}>Charges:</Text> {ride.amount}</Text>
-            <Text style={styles.rideText}><Text style={styles.span}>Pickup Time:</Text> {new Date(ride.time_pick).toLocaleString()}</Text>
-            <Text style={styles.rideText}><Text style={styles.span}>Drop Time:</Text> {new Date(ride.time_drop).toLocaleString()}</Text>
-            <Text style={styles.rideText}><Text style={styles.span}>Bike No:</Text> {ride.bikeId.bikeId}</Text>
+            <Text style={styles.rideText}>
+              <Text style={styles.span}>Ride ID:</Text> {ride._id}
+            </Text>
+            <Text style={styles.rideText}>
+              <Text style={styles.span}>Charges:</Text> {ride.amount}
+            </Text>
+            <Text style={styles.rideText}>
+              <Text style={styles.span}>Pickup Time:</Text>{' '}
+              {new Date(ride.time_pick).toLocaleString()}
+            </Text>
+            <Text style={styles.rideText}>
+              <Text style={styles.span}>Drop Time:</Text>{' '}
+              {new Date(ride.time_drop).toLocaleString()}
+            </Text>
+            <Text style={styles.rideText}>
+              <Text style={styles.span}>Bike No:</Text> {ride.bikeId.bikeId}
+            </Text>
           </View>
         ))}
       </ScrollView>
@@ -194,7 +207,6 @@ const styles = StyleSheet.create({
 
 export default ProfileScreen;
 
-
 // import React, {useContext, useState, useEffect, useCallback} from 'react';
 // import {
 //   StyleSheet,
@@ -212,18 +224,18 @@ export default ProfileScreen;
 //   const {user} = useContext(UserContext);
 //   const [rides, setRides] = useState([]);
 //   const userData = user.user;
-  // const [balance, setBalance] = useState(0);
-  // const fetchBalance = async () => {
-  //   try {
-  //     const response = await axios.post(
-  //       `http://${IP}:3000/api/auth/getBalance',
-  //       {user_id: userData._id},
-  //     );
-  //     setBalance(response.data.balance);
-  //   } catch (error) {
-  //     console.error('Error fetching balance:', error);
-  //   }
-  // };
+// const [balance, setBalance] = useState(0);
+// const fetchBalance = async () => {
+//   try {
+//     const response = await axios.post(
+//       `http://${IP}:3000/api/auth/getBalance',
+//       {user_id: userData._id},
+//     );
+//     setBalance(response.data.balance);
+//   } catch (error) {
+//     console.error('Error fetching balance:', error);
+//   }
+// };
 //   const getRides = async () => {
 //     const userId = userData._id;
 //     try {
@@ -245,11 +257,11 @@ export default ProfileScreen;
 //   useEffect(() => {
 //     getRides();
 //   }, []);
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     fetchBalance();
-  //   }, []),
-  // );
+// useFocusEffect(
+//   useCallback(() => {
+//     fetchBalance();
+//   }, []),
+// );
 //   return (
 //     <View style={styles.container}>
 //       <ImageBackground

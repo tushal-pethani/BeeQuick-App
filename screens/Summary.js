@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import axios from 'axios';
-import {IP} from '@env';
+// import {IP} from '@env';
+const IPa = process.env.IP;
 
 const SummaryPage = ({route, navigation}) => {
   const [locDrop, setLocDrop] = useState('');
@@ -13,7 +14,7 @@ const SummaryPage = ({route, navigation}) => {
   const handleRidedata = async () => {
     try {
       const dropLocRes = await axios.post(
-        `http://${IP}:3000/api/locations/droplocid`,
+        `http://${IPa}:3000/api/locations/droplocid`,
         {loc_drop: rideData.loc_drop},
         {
           headers: {
@@ -25,7 +26,7 @@ const SummaryPage = ({route, navigation}) => {
       const dropLoc = dropLocRes.data;
       // const locRes = await axios.post('http://192.168.1.7:3000/api/locations/pickuplocid', { loc_pick });
       const locRes = await axios.post(
-        `http://${IP}:3000/api/locations/pickuplocid`,
+        `http://${IPa}:3000/api/locations/pickuplocid`,
         {loc_pick: rideData.loc_pick},
         {
           headers: {
@@ -35,7 +36,7 @@ const SummaryPage = ({route, navigation}) => {
       );
       const loc = locRes.data;
       const userRes = await axios.post(
-        `http://${IP}:3000/api/userid/get-username`,
+        `http://${IPa}:3000/api/userid/get-username`,
         {username: rideData.username},
         {
           headers: {
@@ -45,7 +46,7 @@ const SummaryPage = ({route, navigation}) => {
       );
       user = userRes.data;
       const bikeRes = await axios.post(
-        `http://${IP}:3000/api/bicycles/get-bikeid`,
+        `http://${IPa}:3000/api/bicycles/get-bikeid`,
         {bikeId: rideData.bikeId},
         {
           headers: {
@@ -77,10 +78,13 @@ const SummaryPage = ({route, navigation}) => {
         console.error('Invalid bike ID.');
         return;
       }
-      const newBalance = await axios.post(`http://${IP}:3000/api/auth/charge`, {
-        userId: rideData.username,
-        charge: rideData.amount.toFixed(2),
-      });
+      const newBalance = await axios.post(
+        `http://${IPa}:3000/api/auth/charge`,
+        {
+          userId: rideData.username,
+          charge: rideData.amount.toFixed(2),
+        },
+      );
       if (!newBalance) {
         console.error('Charges deduction failed');
       }

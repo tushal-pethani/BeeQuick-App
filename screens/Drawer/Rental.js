@@ -20,8 +20,8 @@ import RazorpayCheckout from 'react-native-razorpay';
 import Navbar from '../Navbar';
 import {UserContext} from '../../context/UserProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {IP} from '@env';
-
+// import {IP} from '@env';
+const IPa = process.env.IP;
 const Rental = ({navigation, route}) => {
   const [bikes, setBikes] = useState([]);
   const [token, setToken] = useState(null);
@@ -34,7 +34,7 @@ const Rental = ({navigation, route}) => {
   const getUserId = async () => {
     try {
       const response = await axios.get(
-        `http://${IP}:3000/api/userid/get-user-id`,
+        `http://${IPa}:3000/api/userid/get-user-id`,
         {withCredentials: true},
       );
       setUserId(response.data.userId);
@@ -45,7 +45,7 @@ const Rental = ({navigation, route}) => {
   const fetchBalance = async () => {
     try {
       const response = await axios.post(
-        `http://${IP}:3000/api/auth/getBalance`,
+        `http://${IPa}:3000/api/auth/getBalance`,
         {user_id: userId},
       );
       // const user = await AsyncStorage.getItem(user);
@@ -65,7 +65,7 @@ const Rental = ({navigation, route}) => {
     // console.log(userId);
     try {
       const response = await axios.post(
-        `http://${IP}:3000/api/userid/get-username`,
+        `http://${IPa}:3000/api/userid/get-username`,
         {username: userId},
         // {
         //   headers: {
@@ -80,7 +80,7 @@ const Rental = ({navigation, route}) => {
   };
   useEffect(() => {
     getUserId();
-    CookieManager.get(`http://${IP}:3000`)
+    CookieManager.get(`http://${IPa}:3000`)
       .then(cookies => {
         if (cookies.token) {
           setToken(cookies.token.value);
@@ -129,7 +129,7 @@ const Rental = ({navigation, route}) => {
       }
       try {
         const response = await axios.post(
-          `http://${IP}:3000/api/bicycles/available`,
+          `http://${IPa}:3000/api/bicycles/available`,
           {loc_id: values.loc_id, user_id: userId},
         );
         // if(response.message === "balance is zero"){
@@ -154,7 +154,7 @@ const Rental = ({navigation, route}) => {
     if (text.length > 0) {
       try {
         const response = await axios.post(
-          `http://${IP}:3000/api/locations/search`,
+          `http://${IPa}:3000/api/locations/search`,
           {query: text},
           {
             headers: {
@@ -182,7 +182,7 @@ const Rental = ({navigation, route}) => {
     // console.log(token);
     try {
       const locationResponse = await axios.post(
-        `http://${IP}:3000/api/locations/locid`,
+        `http://${IPa}:3000/api/locations/locid`,
         {loc_id: formik.values.loc_id},
         {
           headers: {
@@ -200,7 +200,7 @@ const Rental = ({navigation, route}) => {
       // console.log(location._id);
 
       const response = await axios.post(
-        `http://${IP}:3000/api/rides/create`,
+        `http://${IPa}:3000/api/rides/create`,
         {
           username: userId,
           bikeId: bikeId,
@@ -235,7 +235,7 @@ const Rental = ({navigation, route}) => {
     const amount = 100;
     const currency = 'INR';
     const response = await axios.post(
-      `http://${IP}:3000/api/payment/createOrder`,
+      `http://${IPa}:3000/api/payment/createOrder`,
       {
         amount: amount * 100,
       },
@@ -260,7 +260,7 @@ const Rental = ({navigation, route}) => {
     RazorpayCheckout.open(options)
       .then(async data => {
         await axios.post(
-          `http://${IP}:3000/api/payment/savePayment`,
+          `http://${IPa}:3000/api/payment/savePayment`,
           {
             user_id: userId,
             payment_id: data.razorpay_payment_id,

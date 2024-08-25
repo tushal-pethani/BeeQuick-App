@@ -16,9 +16,9 @@ import imagePath from '../src/constants/imagePath';
 import {locationPermission, getCurrentLoc} from '../helper/helperFunction';
 import Geolocation from 'react-native-geolocation-service';
 import {useRoute} from '@react-navigation/native';
-import {IP} from '@env';
+// import {IP} from '@env';
 import {ScrollView} from 'react-native-gesture-handler';
-
+const IPa = process.env.IP;
 const StatusPage = ({route, navigation}) => {
   const {rideId, username, bikeId, loc_pick, time_pick, token} = route.params;
 
@@ -75,17 +75,17 @@ const StatusPage = ({route, navigation}) => {
   const handleRidedata = async () => {
     try {
       const locRes = await axios.post(
-        `http://${IP}:3000/api/locations/pickuplocid`,
+        `http://${IPa}:3000/api/locations/pickuplocid`,
         {loc_pick},
       );
       const loc = locRes.data;
       const userRes = await axios.post(
-        `http://${IP}:3000/api/userid/get-username`,
+        `http://${IPa}:3000/api/userid/get-username`,
         {username},
       );
       const user = userRes.data;
       const bikeRes = await axios.post(
-        `http://${IP}:3000/api/bicycles/get-bikeid`,
+        `http://${IPa}:3000/api/bicycles/get-bikeid`,
         {bikeId},
       );
       const bike = bikeRes.data;
@@ -119,7 +119,7 @@ const StatusPage = ({route, navigation}) => {
     if (text.length > 0) {
       try {
         const response = await axios.post(
-          `http://${IP}:3000/api/locations/search`,
+          `http://${IPa}:3000/api/locations/search`,
           {
             query: text,
           },
@@ -136,7 +136,7 @@ const StatusPage = ({route, navigation}) => {
   const handleSelectLocation = async () => {
     try {
       const locationResponse = await axios.post(
-        `http://${IP}:3000/api/locations/locid`,
+        `http://${IPa}:3000/api/locations/locid`,
         {loc_id: locDrop},
       );
       const location = locationResponse.data;
@@ -199,7 +199,7 @@ const StatusPage = ({route, navigation}) => {
 
     try {
       const locationResponse = await axios.post(
-        `http://${IP}:3000/api/locations/locid`,
+        `http://${IPa}:3000/api/locations/locid`,
         {loc_id: locDrop},
       );
       const location = locationResponse.data;
@@ -225,7 +225,7 @@ const StatusPage = ({route, navigation}) => {
 
       // navigation.navigate('Summary', {rideData, token});
       const response = await axios.put(
-        `http://${IP}:3000/api/rides/end`,
+        `http://${IPa}:3000/api/rides/end`,
         {rideId, loc_drop: location._id},
         {
           headers: {
